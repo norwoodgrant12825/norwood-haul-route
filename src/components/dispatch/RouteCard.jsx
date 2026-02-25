@@ -145,54 +145,50 @@ export default function RouteCard({ route, orders, onReorder }) {
                   {...provided.droppableProps}
                   className="space-y-1.5"
                 >
-                  {etaData.map(({ order, arrivalMin, travelMinutes, onSiteMinutes }, idx) => (
-                    <Draggable key={order.id} draggableId={order.id} index={idx}>
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          className={`flex items-center gap-3 p-2.5 rounded-lg border transition-colors ${
-                            snapshot.isDragging
-                              ? "bg-amber-500/10 border-amber-500/40 shadow-lg"
-                              : "bg-[hsl(0,0%,8%)] border-[hsl(0,0%,15%)]"
-                          }`}
-                        >
-                          {/* Drag handle */}
-                          <div {...provided.dragHandleProps} className="cursor-grab active:cursor-grabbing">
-                            <GripVertical className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                          </div>
-
-                          {/* Stop number */}
-                          <span className="text-xs font-bold text-amber-500 w-5 flex-shrink-0">#{idx + 1}</span>
-
-                          {/* Info */}
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate">{order.customer_name}</p>
-                            <p className="text-xs text-gray-500 truncate">{order.address}</p>
-                          </div>
-
-                          {/* ETA & buffer */}
-                          <div className="text-right flex-shrink-0 space-y-0.5">
-                            <div className="flex items-center gap-1 justify-end">
-                              <Clock className="w-3 h-3 text-gray-500" />
-                              <span className="text-xs text-white font-medium">
-                                {minutesToTime(arrivalMin)}
-                              </span>
-                            </div>
-                            <div className="text-[10px] text-gray-600">
-                              {order.quantity_yards} yd · {formatMinutes(onSiteMinutes)} on-site
-                            </div>
-                            {idx > 0 && travelMinutes > 0 && (
-                              <div className="text-[10px] text-gray-600">
-                                +{formatMinutes(travelMinutes)} travel
-                              </div>
-                            )}
-                          </div>
-
-                          <StatusBadge status={order.status} />
+                  {etaData.map(({ order, arrivalMin, departureMin, travelToSite, onSiteMinutes, returnToYard, reloadMinutes }, idx) => (
+                    <React.Fragment key={order.id}>
+                      {/* Yard return leg shown BEFORE next stop (after stop 1+) */}
+                      {idx > 0 && (
+                        <div className="flex items-center gap-2 px-2 py-1">
+                          <div className="w-px h-4 bg-[hsl(0,0%,20%)] ml-4" />
+                          <span className="text-[10px] text-gray-600">
+                            ↩ Return to yard ({formatMinutes(returnToYard)}) · Reload ({formatMinutes(reloadMinutes)}) · Drive ({formatMinutes(travelToSite)})
+                          </span>
                         </div>
                       )}
-                    </Draggable>
+                      <Draggable draggableId={order.id} index={idx}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            className={`flex items-center gap-3 p-2.5 rounded-lg border transition-colors ${
+                              snapshot.isDragging
+                                ? "bg-amber-500/10 border-amber-500/40 shadow-lg"
+                                : "bg-[hsl(0,0%,8%)] border-[hsl(0,0%,15%)]"
+                            }`}
+                          >
+                            <div {...provided.dragHandleProps} className="cursor-grab active:cursor-grabbing">
+                              <GripVertical className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                            </div>
+                            <span className="text-xs font-bold text-amber-500 w-5 flex-shrink-0">#{idx + 1}</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium truncate">{order.customer_name}</p>
+                              <p className="text-xs text-gray-500 truncate">{order.address}</p>
+                            </div>
+                            <div className="text-right flex-shrink-0 space-y-0.5">
+                              <div className="flex items-center gap-1 justify-end">
+                                <Clock className="w-3 h-3 text-gray-500" />
+                                <span className="text-xs text-white font-medium">{minutesToTime(arrivalMin)}</span>
+                              </div>
+                              <div className="text-[10px] text-gray-600">
+                                {order.quantity_yards} yd · {formatMinutes(onSiteMinutes)} on-site
+                              </div>
+                            </div>
+                            <StatusBadge status={order.status} />
+                          </div>
+                        )}
+                      </Draggable>
+                    </React.Fragment>
                   ))}
                   {provided.placeholder}
                 </div>
