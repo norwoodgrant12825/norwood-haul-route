@@ -62,6 +62,16 @@ export default function DispatchBoard() {
     onSuccess: () => queryClient.invalidateQueries(),
   });
 
+  const handleReorder = async (routeId, reorderedOrders) => {
+    // Save new stop_order for each order
+    await Promise.all(
+      reorderedOrders.map((order, idx) =>
+        base44.entities.DeliveryOrder.update(order.id, { stop_order: idx + 1 })
+      )
+    );
+    queryClient.invalidateQueries();
+  };
+
   const activeOrders = orders.filter(o => o.status !== "Cancelled");
   const totalYards = activeOrders.reduce((s, o) => s + (o.quantity_yards || 0), 0);
   const totalRevenue = activeOrders.reduce((s, o) => s + (o.revenue || 0), 0);
