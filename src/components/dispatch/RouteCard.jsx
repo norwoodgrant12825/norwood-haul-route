@@ -3,23 +3,27 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Truck, GripVertical, Clock, AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
 import StatusBadge from "../shared/StatusBadge";
 
-// Smart buffer calculation based on time-of-day traffic patterns and job size
-function calcBufferMinutes(order, stopIndex, timeSlot) {
-  // Base on-site time per yard (dump trucks average ~3 min/yd on-site)
-  const onSiteMinutes = Math.max(15, Math.round((order.quantity_yards || 10) * 2.5));
+const YARD_ADDRESS = "12825 Norwood Rd";
 
-  // Travel buffer: time-of-day heuristic
-  // AM rush (7-9am), Midday (11am-1pm light), PM rush (4-6pm)
-  const trafficMultipliers = { AM: 1.35, Midday: 1.1, PM: 1.4 };
-  const trafficFactor = trafficMultipliers[timeSlot] || 1.2;
+// Traffic multiplier by time slot
+const TRAFFIC_MULT = { AM: 1.35, Midday: 1.1, PM: 1.4 };
 
-  // Base travel time estimate: 15 min avg between stops, adjusted for traffic
-  const baseTravelMin = Math.round(15 * trafficFactor);
+// Each stop = 1 load. After dump, truck returns to yard to reload.
+// Cycle: Yard → Job site (dump) → Yard (reload) → next Job site ...
+//
+// Time breakdown per stop:
+//   1. Travel: Yard → job site (~15 min avg, traffic-adjusted)
+//   2. On-site dump: based on yardage (~2.5 min/yd, min 15 min)
+//   3. Return to yard + reload: ~20 min base, traffic-adjusted + 10 min load time
 
-  // Add extra buffer for each additional stop (fatigue, adjustments)
-  const stopBuffer = stopIndex * 3;
-
-  return { onSiteMinutes, travelMinutes: baseTravelMin, bufferMinutes: stopBuffer + 5 };
+function calcStopTimes(order, timeSlot) {
+  const tf = TRAFFIC_MULT[timeSlot] || 1.2;
+  const travelToSite = Math.round(15 * tf);       // yard → job site
+  const onSiteMinutes = Math.max(15, Math.round((order.quantity_yards || 10) * 2.5)); // dumping
+  const returnToYard = Math.round(20 * tf);        // job site → yard
+  const reloadMinutes = 10;                        // loading at yard
+  const cycleMinutes = travelToSite + onSiteMinutes + returnToYard + reloadMinutes;
+  return { travelToSite, onSiteMinutes, returnToYard, reloadMinutes, cycleMinutes };
 }
 
 function formatMinutes(mins) {
@@ -33,19 +37,32 @@ function getStartHour(timeSlot) {
   return 14;
 }
 
+// Returns ETA data per stop, accounting for yard return between each
 function calcETA(orders, timeSlot) {
   let currentMin = getStartHour(timeSlot) * 60;
   return orders.map((order, idx) => {
-    const { onSiteMinutes, travelMinutes, bufferMinutes } = calcBufferMinutes(order, idx, timeSlot);
-    if (idx > 0) currentMin += travelMinutes + bufferMinutes;
+    const { travelToSite, onSiteMinutes, returnToYard, reloadMinutes, cycleMinutes } = calcStopTimes(order, timeSlot);
+    // First stop: leave yard directly. Subsequent: already accounted for by previous cycle.
+    if (idx === 0) {
+      currentMin += travelToSite; // travel from yard to first site
+    }
+    // For idx > 0, the previous stop already added returnToYard + reload + travelToSite
     const arrivalMin = currentMin;
     currentMin += onSiteMinutes;
+    const departureMin = currentMin;
+    if (idx < orders.length - 1) {
+      // Return to yard + reload + travel to next site
+      currentMin += returnToYard + reloadMinutes + travelToSite;
+    }
     return {
       order,
       arrivalMin,
-      departureMin: currentMin,
-      travelMinutes: idx > 0 ? travelMinutes + bufferMinutes : 0,
+      departureMin,
+      travelToSite,
       onSiteMinutes,
+      returnToYard,
+      reloadMinutes,
+      cycleMinutes,
     };
   });
 }
