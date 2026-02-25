@@ -79,29 +79,18 @@ export default function IntakeFormFields({ form, setForm }) {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label className="text-gray-400 text-xs uppercase tracking-wider">Delivery Date *</Label>
-          <Input
-            type="date"
-            value={form.delivery_date}
-            onChange={e => update("delivery_date", e.target.value)}
-            className="bg-[hsl(0,0%,8%)] border-[hsl(0,0%,20%)] text-white h-11"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label className="text-gray-400 text-xs uppercase tracking-wider">Time Slot</Label>
-          <Select value={form.time_slot} onValueChange={v => update("time_slot", v)}>
-            <SelectTrigger className="bg-[hsl(0,0%,8%)] border-[hsl(0,0%,20%)] text-white h-11">
-              <SelectValue placeholder="Select slot" />
-            </SelectTrigger>
-            <SelectContent className="bg-[hsl(0,0%,12%)] border-[hsl(0,0%,20%)]">
-              <SelectItem value="AM" className="text-white hover:bg-white/10">AM (7:00 - 11:00)</SelectItem>
-              <SelectItem value="Midday" className="text-white hover:bg-white/10">Midday (11:00 - 2:00)</SelectItem>
-              <SelectItem value="PM" className="text-white hover:bg-white/10">PM (2:00 - 5:00)</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="space-y-2">
+        <Label className="text-gray-400 text-xs uppercase tracking-wider">Time Slot</Label>
+        <Select value={form.time_slot} onValueChange={v => update("time_slot", v)}>
+          <SelectTrigger className="bg-[hsl(0,0%,8%)] border-[hsl(0,0%,20%)] text-white h-11">
+            <SelectValue placeholder="Select preferred time window" />
+          </SelectTrigger>
+          <SelectContent className="bg-[hsl(0,0%,12%)] border-[hsl(0,0%,20%)]">
+            <SelectItem value="AM" className="text-white hover:bg-white/10">AM (7:00 - 11:00)</SelectItem>
+            <SelectItem value="Midday" className="text-white hover:bg-white/10">Midday (11:00 - 2:00)</SelectItem>
+            <SelectItem value="PM" className="text-white hover:bg-white/10">PM (2:00 - 5:00)</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="space-y-2">
