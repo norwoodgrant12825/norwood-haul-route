@@ -26,6 +26,7 @@ import {
 import StatCard from "../components/shared/StatCard";
 import StatusBadge from "../components/shared/StatusBadge";
 import CapacityBar from "../components/shared/CapacityBar";
+import RouteCard from "../components/dispatch/RouteCard";
 
 export default function DispatchBoard() {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
