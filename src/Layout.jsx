@@ -35,6 +35,17 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then(setUser).catch(() => {});
   }, []);
 
+  // Intake form is public — no login required, no sidebar
+  if (currentPageName === "IntakeForm") {
+    return (
+      <div className="min-h-screen bg-[hsl(0,0%,7%)] text-white">
+        <div className="p-4 lg:p-6 max-w-3xl mx-auto">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   const role = user?.role || "driver";
   const isAdmin = role === "admin" || role === "dispatch";
   const pages = isAdmin ? [...ADMIN_PAGES, ...DRIVER_PAGES] : DRIVER_PAGES;
