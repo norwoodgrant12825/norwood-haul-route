@@ -178,36 +178,14 @@ export default function DispatchBoard() {
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Routes</h2>
           {routes.map(route => {
-            const routeOrders = orders.filter(o => o.route_id === route.id).sort((a, b) => (a.stop_order || 0) - (b.stop_order || 0));
+            const routeOrders = orders.filter(o => o.route_id === route.id);
             return (
-              <div key={route.id} className="rounded-xl border border-[hsl(0,0%,18%)] bg-[hsl(0,0%,10%)] p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                      <Truck className="w-4 h-4 text-amber-500" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold">{route.name}</p>
-                      <p className="text-xs text-gray-500">{route.assigned_driver_name} · {route.total_stops} stops · {route.total_yards} yd</p>
-                    </div>
-                  </div>
-                  <StatusBadge status={route.status} />
-                </div>
-                <div className="space-y-1.5">
-                  {routeOrders.map((order, idx) => (
-                    <div key={order.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-[hsl(0,0%,8%)] border border-[hsl(0,0%,15%)]">
-                      <GripVertical className="w-4 h-4 text-gray-600 flex-shrink-0" />
-                      <span className="text-xs font-bold text-amber-500 w-5">#{idx + 1}</span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{order.customer_name}</p>
-                        <p className="text-xs text-gray-500 truncate">{order.address}</p>
-                      </div>
-                      <span className="text-xs text-gray-500">{order.quantity_yards} yd</span>
-                      <StatusBadge status={order.status} />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <RouteCard
+                key={route.id}
+                route={route}
+                orders={routeOrders}
+                onReorder={handleReorder}
+              />
             );
           })}
         </div>
