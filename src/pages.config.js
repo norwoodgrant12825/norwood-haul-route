@@ -47,13 +47,24 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import AdminDashboard from './pages/AdminDashboard';
+import IntakeForm from './pages/IntakeForm';
+import DispatchBoard from './pages/DispatchBoard';
+import DriverDashboard from './pages/DriverDashboard';
+import Reports from './pages/Reports';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "AdminDashboard": AdminDashboard,
+    "IntakeForm": IntakeForm,
+    "DispatchBoard": DispatchBoard,
+    "DriverDashboard": DriverDashboard,
+    "Reports": Reports,
 }
 
 export const pagesConfig = {
+    mainPage: "AdminDashboard",
     Pages: PAGES,
     Layout: __Layout,
 };
