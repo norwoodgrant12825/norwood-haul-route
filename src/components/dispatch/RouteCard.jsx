@@ -88,6 +88,7 @@ export default function RouteCard({ route, orders, onReorder }) {
   const etaData = calcETA(sortedOrders, timeSlot);
   const traffic = trafficLabel(timeSlot);
 
+  // Total route time: from yard departure to last dump completion
   const totalRouteMin = etaData.length > 0
     ? etaData[etaData.length - 1].departureMin - (getStartHour(timeSlot) * 60)
     : 0;
