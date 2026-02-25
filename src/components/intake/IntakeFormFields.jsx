@@ -79,6 +79,13 @@ export default function IntakeFormFields({ form, setForm }) {
         </div>
       </div>
 
+      {form.delivery_date && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-sm text-amber-400">
+          <span className="text-xs uppercase tracking-wider text-amber-500/60 font-medium">Selected Date:</span>
+          <span className="font-semibold">{new Date(form.delivery_date + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</span>
+        </div>
+      )}
+
       <div className="space-y-2">
         <Label className="text-gray-400 text-xs uppercase tracking-wider">Time Slot</Label>
         <Select value={form.time_slot} onValueChange={v => update("time_slot", v)}>
