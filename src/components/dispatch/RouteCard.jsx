@@ -198,20 +198,28 @@ export default function RouteCard({ route, orders, onReorder }) {
 
           {/* Route Summary */}
           {etaData.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-[hsl(0,0%,15%)] grid grid-cols-3 gap-2">
-              <div className="text-center">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Start</p>
-                <p className="text-xs font-medium">{minutesToTime(etaData[0].arrivalMin)}</p>
+            <>
+              <div className="mt-2 px-2 py-1.5 rounded-lg bg-amber-500/5 border border-amber-500/15 flex items-center gap-2">
+                <Truck className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                <span className="text-[11px] text-amber-400">
+                  {sortedOrders.length} load{sortedOrders.length !== 1 ? "s" : ""} — returns to {YARD_ADDRESS} between every stop to reload
+                </span>
               </div>
-              <div className="text-center">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Duration</p>
-                <p className="text-xs font-medium">{formatMinutes(totalRouteMin)}</p>
+              <div className="mt-2 pt-3 border-t border-[hsl(0,0%,15%)] grid grid-cols-3 gap-2">
+                <div className="text-center">
+                  <p className="text-[10px] text-gray-500 uppercase tracking-wider">1st Arrival</p>
+                  <p className="text-xs font-medium">{minutesToTime(etaData[0].arrivalMin)}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-[10px] text-gray-500 uppercase tracking-wider">Total Time</p>
+                  <p className="text-xs font-medium">{formatMinutes(totalRouteMin)}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-[10px] text-gray-500 uppercase tracking-wider">Last Drop</p>
+                  <p className="text-xs font-medium">{minutesToTime(etaData[etaData.length - 1].departureMin)}</p>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Est. Done</p>
-                <p className="text-xs font-medium">{minutesToTime(etaData[etaData.length - 1].departureMin)}</p>
-              </div>
-            </div>
+            </>
           )}
         </div>
       )}
