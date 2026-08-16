@@ -1,0 +1,48 @@
+{
+  "name": "DailyCapacity",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date"
+    },
+    "total_slots": {
+      "type": "number",
+      "default": 20,
+      "description": "Total delivery slots available"
+    },
+    "slots_used": {
+      "type": "number",
+      "default": 0,
+      "description": "Slots currently booked"
+    },
+    "total_yards_capacity": {
+      "type": "number",
+      "default": 200,
+      "description": "Max yards for the day"
+    },
+    "yards_scheduled": {
+      "type": "number",
+      "default": 0,
+      "description": "Yards currently scheduled"
+    },
+    "is_locked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this date is locked from new bookings"
+    },
+    "weather_adjustment": {
+      "type": "number",
+      "default": 0,
+      "description": "Capacity reduction due to weather (percentage)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes for this day"
+    }
+  },
+  "required": [
+    "date"
+  ]
+}

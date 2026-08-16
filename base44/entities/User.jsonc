@@ -1,0 +1,33 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "dispatch",
+        "driver"
+      ],
+      "default": "driver",
+      "description": "User role"
+    },
+    "truck_number": {
+      "type": "string",
+      "description": "Assigned truck number"
+    },
+    "max_yards": {
+      "type": "number",
+      "description": "Max yards this driver can haul"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether driver is active"
+    }
+  },
+  "required": [
+    "truck_number",
+    "max_yards"
+  ]
+}

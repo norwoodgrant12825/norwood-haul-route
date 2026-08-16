@@ -1,0 +1,60 @@
+{
+  "name": "TimeLog",
+  "type": "object",
+  "properties": {
+    "driver_email": {
+      "type": "string",
+      "description": "Driver email"
+    },
+    "driver_name": {
+      "type": "string",
+      "description": "Driver name"
+    },
+    "log_type": {
+      "type": "string",
+      "enum": [
+        "yard_clock_in",
+        "yard_clock_out",
+        "job_arrival",
+        "job_complete",
+        "break_start",
+        "break_end"
+      ],
+      "description": "Type of time log"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO timestamp"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "GPS latitude"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "GPS longitude"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Related DeliveryOrder ID if applicable"
+    },
+    "route_id": {
+      "type": "string",
+      "description": "Related Route ID"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the log"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    }
+  },
+  "required": [
+    "driver_email",
+    "log_type",
+    "timestamp"
+  ]
+}

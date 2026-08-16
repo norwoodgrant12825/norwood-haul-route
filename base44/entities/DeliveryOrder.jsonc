@@ -1,0 +1,147 @@
+{
+  "name": "DeliveryOrder",
+  "type": "object",
+  "properties": {
+    "customer_name": {
+      "type": "string",
+      "description": "Customer name"
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Reference to Customer entity"
+    },
+    "address": {
+      "type": "string",
+      "description": "Delivery address"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Delivery latitude"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Delivery longitude"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone"
+    },
+    "material_type": {
+      "type": "string",
+      "enum": [
+        "Topsoil",
+        "Gravel",
+        "Sand",
+        "Crushed Stone",
+        "Fill Dirt",
+        "Mulch",
+        "Compost",
+        "Recycled Asphalt",
+        "Clay",
+        "Other"
+      ],
+      "description": "Material to deliver"
+    },
+    "quantity_yards": {
+      "type": "number",
+      "description": "Quantity in yards"
+    },
+    "special_instructions": {
+      "type": "string",
+      "description": "Special delivery instructions"
+    },
+    "delivery_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Requested delivery date"
+    },
+    "time_slot": {
+      "type": "string",
+      "enum": [
+        "AM",
+        "Midday",
+        "PM"
+      ],
+      "description": "Estimated delivery window"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Scheduled",
+        "In Transit",
+        "Delivered",
+        "Cancelled"
+      ],
+      "default": "Pending",
+      "description": "Order status"
+    },
+    "assigned_driver": {
+      "type": "string",
+      "description": "Driver email assigned to this order"
+    },
+    "assigned_driver_name": {
+      "type": "string",
+      "description": "Driver name"
+    },
+    "route_id": {
+      "type": "string",
+      "description": "Reference to Route entity"
+    },
+    "stop_order": {
+      "type": "number",
+      "description": "Order in route sequence"
+    },
+    "placement_instructions": {
+      "type": "string",
+      "description": "Where to place material on site"
+    },
+    "attachment_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Attached reference photos"
+    },
+    "load_photo_url": {
+      "type": "string",
+      "description": "Photo of load in truck"
+    },
+    "dump_photo_url": {
+      "type": "string",
+      "description": "Photo of material dumped"
+    },
+    "site_photo_url": {
+      "type": "string",
+      "description": "Final site photo after completion"
+    },
+    "arrival_time": {
+      "type": "string",
+      "description": "GPS-logged arrival time"
+    },
+    "completion_time": {
+      "type": "string",
+      "description": "Time marked delivered"
+    },
+    "driver_notes": {
+      "type": "string",
+      "description": "Notes from driver"
+    },
+    "revenue": {
+      "type": "number",
+      "description": "Revenue for this delivery"
+    },
+    "locked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the job is locked by admin"
+    }
+  },
+  "required": [
+    "customer_name",
+    "address",
+    "material_type",
+    "quantity_yards",
+    "delivery_date"
+  ]
+}

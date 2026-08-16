@@ -1,0 +1,39 @@
+{
+  "name": "Customer",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Customer name"
+    },
+    "address": {
+      "type": "string",
+      "description": "Delivery address"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Address latitude"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Address longitude"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "notes": {
+      "type": "string",
+      "description": "General notes about customer"
+    }
+  },
+  "required": [
+    "name",
+    "address",
+    "phone"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "name": "Route",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Route name/identifier"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Route date"
+    },
+    "assigned_driver": {
+      "type": "string",
+      "description": "Driver email"
+    },
+    "assigned_driver_name": {
+      "type": "string",
+      "description": "Driver name"
+    },
+    "total_yards": {
+      "type": "number",
+      "description": "Total yardage for route"
+    },
+    "total_stops": {
+      "type": "number",
+      "description": "Number of stops"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Planned",
+        "Active",
+        "Completed",
+        "Cancelled"
+      ],
+      "default": "Planned",
+      "description": "Route status"
+    },
+    "estimated_duration_minutes": {
+      "type": "number",
+      "description": "Estimated total route time in minutes"
+    },
+    "estimated_revenue": {
+      "type": "number",
+      "description": "Projected revenue for route"
+    },
+    "order_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ordered list of DeliveryOrder IDs"
+    }
+  },
+  "required": [
+    "name",
+    "date"
+  ]
+}
